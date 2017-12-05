@@ -7,6 +7,7 @@ Timer timer;
 PImage rocket;
 PImage astronaut;
 PImage asteroid1, asteroid2, asteroid3, asteroid4, asteroid5, asteroid6, asteroid7;
+PImage title;
 
 PGraphics test;
 
@@ -35,12 +36,25 @@ import ddf.minim.*;
 
 Minim minim;
 AudioPlayer player;
+AudioPlayer lose;
+AudioPlayer smack;
+
+import gifAnimation.*;
+
+Gif myAnimation;
+
+int stage;
 
 void setup() {
+  stage = 1;
   size(500, 500);
+  title = loadImage("Title.png");
+  myAnimation  = new Gif(this, "Lose.gif");
   minim = new Minim(this);
   player = minim.loadFile("SpaceBreathing.mp3");
-  player.loop();
+  lose = minim.loadFile("ShootingStars.mp3");
+  smack = minim.loadFile("smack.mp3");
+  //player.loop();
   println (millis());
   timer = new Timer();
   timer.start();
@@ -64,6 +78,16 @@ void setup() {
 }
 
 void draw() {
+  if (stage ==1){
+    image(title, -100, 0);
+    image(astronaut,300,150);
+    astronaut.resize(200,0);
+    player.loop();
+    if (keyPressed == true){
+      stage = 2;
+  }
+  }
+  if (stage == 2){
   starryNight();
   moveWalker();
   drawAstronaut();
@@ -86,6 +110,7 @@ void draw() {
   //a.moveAsteroids();
   
   collision();
+  }
 }
 
 void moveWalker() {
@@ -378,7 +403,8 @@ void asteroid7Movement(){
 void collision(){
   if( pWalkerY <= 5 || pWalkerY >= height-10)
   {
-    background(0);
+    smack.play();
+    gameOver();
   }
 }
 
@@ -389,4 +415,11 @@ void time(){
 }
 
 void gameOver(){
+  background(0);
+  player.pause();
+  myAnimation.play();
+  lose.play();
+  
+  image(myAnimation, -300,0);
+  
 }
