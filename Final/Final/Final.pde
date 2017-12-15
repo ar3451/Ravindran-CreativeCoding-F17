@@ -1,3 +1,10 @@
+// Turn of collision1 if you want to see the mess that is the collision system
+// I've turned on collision 2 so that you can at least get a feel for the game and 
+// the aesthetic that I was going for
+// Not even Kelly was able to help me out :(
+
+
+
 Asteroid a;
 
 int rocketX = 230;
@@ -24,8 +31,9 @@ int asteroid4X = 550;
 int asteroid5X = 550;
 int asteroid6X = 550;
 int asteroid7X = 550;
-float asteroid1Y = random(50,450);
-float asteroid2Y = random(100,400);
+float asteroid1Y = 250;
+//float asteroid2Y = random(100,400);
+float asteroid2Y = 250;
 float asteroid3Y = random(150,350);
 float asteroid4Y = random(150,350);
 float asteroid5Y = random(50,450);
@@ -88,6 +96,7 @@ void draw() {
   }
   }
   if (stage == 2){
+    println(dist(astroX,astroY,asteroid1X,asteroid1Y));
   starryNight();
   moveWalker();
   drawAstronaut();
@@ -109,8 +118,15 @@ void draw() {
   //movingRocket();
   //a.moveAsteroids();
   
-  collision();
+  //collision1();
+  collision2();
   }
+  if(stage == 3){
+    timer.stop();
+    gameOver();
+    text(nf(timer.hour(), 2)+":"+nf(timer.minute(), 2)+":"+nf(timer.second(), 2), 470, 20);
+  }
+    
 }
 
 void moveWalker() {
@@ -336,7 +352,7 @@ void asteroid1Movement(){
   }
   else{
     asteroid1X = 550;
-    asteroid1Y = random(50,450);
+    asteroid1Y = 250;
   }
 }
 
@@ -346,7 +362,8 @@ void asteroid2Movement(){
   }
   else{
     asteroid2X = 550;
-    asteroid2Y = random(100,400);
+    //asteroid2Y = random(100,400);
+    asteroid2Y = 250;
   }
 }
 
@@ -400,7 +417,47 @@ void asteroid7Movement(){
   }
 }
 
-void collision(){
+void collision1(){
+  
+  if(dist(astroX,astroY,asteroid1X,asteroid1Y) <=265){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  
+  if(dist(astroX,astroY,asteroid2X,asteroid2Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  if(dist(astroX,astroY,asteroid3X,asteroid3Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  if(dist(astroX,astroY,asteroid4X,asteroid4Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  if(dist(astroX,astroY,asteroid5X,asteroid5Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  if(dist(astroX,astroY,asteroid6X,asteroid6Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+  if(dist(astroX,astroY,asteroid7X,asteroid7Y) <=280){
+    print("collide");
+    smack.play();
+    stage = 3;
+  }
+}
+
+void collision2(){
   if( pWalkerY <= 5 || pWalkerY >= height-10)
   {
     smack.play();
@@ -421,5 +478,6 @@ void gameOver(){
   lose.play();
   
   image(myAnimation, -300,0);
+  //stage = 3;
   
 }

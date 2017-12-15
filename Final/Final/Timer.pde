@@ -19,6 +19,9 @@ class Timer {
     }
     return elapsed;
   }
+  int hundrensec(){ 
+    return (getElapsedTime() / 10) % 100; 
+  } 
   int second() {
     return (getElapsedTime() / 1000) % 60;
   }
